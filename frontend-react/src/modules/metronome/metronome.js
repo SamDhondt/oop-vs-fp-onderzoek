@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import handleChange from '../../common/utils/handleChange';
 
 export const sounds = Object.freeze({
   click: 'Click',
@@ -6,9 +8,6 @@ export const sounds = Object.freeze({
   kick: 'Kick',
   clap: 'Clap'
 });
-
-const handleChange = (setValue) => ({ target: { value: newValue } }) =>
-  setValue(newValue);
 
 const Metronome = ({ defaultTempo, defaultSound }) => {
   const [tempo, setTempo] = useState(defaultTempo);
@@ -38,7 +37,7 @@ const Metronome = ({ defaultTempo, defaultSound }) => {
         onClick={() => setPlaying(!playing)}
       />
       <select value={sound} onChange={handleChange(setSound)}>
-        {Object.keys(sounds).map((key) => (
+        {Object.keys(sounds).map(key => (
           <option key={key} value={key}>
             {sounds[key]}
           </option>
@@ -46,6 +45,16 @@ const Metronome = ({ defaultTempo, defaultSound }) => {
       </select>
     </div>
   );
+};
+
+Metronome.propTypes = {
+  defaultTempo: PropTypes.number,
+  defaultSound: PropTypes.string
+};
+
+Metronome.defaultProps = {
+  defaultTempo: 60,
+  defaultSound: sounds.click
 };
 
 export default Metronome;
