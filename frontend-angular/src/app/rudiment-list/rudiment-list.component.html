@@ -1,0 +1,8 @@
+<div>
+  <input type="text" #searchField (keyup)="filter = searchField.value" />
+  <ul>
+    <li *ngFor="let name of (rudimentNames | filterList: filter)">
+      {{ name }}
+    </li>
+  </ul>
+</div>
