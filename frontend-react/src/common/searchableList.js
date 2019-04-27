@@ -1,30 +1,28 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import handleChange from '../../common/utils/handleChange';
+import { handleChange } from './utils/index';
 
-const SearchableList = ({ rudiments }) => {
+const SearchableList = ({ items, filterPredicate: compareTo, renderItem }) => {
   const [filter, setFilter] = useState('');
+  const compareToFilter = compareTo(filter);
 
   return (
     <div>
       <input type="text" onChange={handleChange(setFilter)} value={filter} />
       <ul>
-        {rudiments
-          .filter(({ name }) => name.indexOf(filter) >= 0)
-          .map(({ name }) => (
-            <li key={name}>{name}</li>
-          ))}
+        {items.filter(({ name }) => compareToFilter(name)).map(renderItem)}
       </ul>
     </div>
   );
 };
 
 SearchableList.propTypes = {
-  rudiments: PropTypes.arrayOf(
+  items: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string
     })
-  ).isRequired
+  ).isRequired,
+  filterPredicate: PropTypes.func.isRequired
 };
 
 export default SearchableList;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import handleChange from '../../common/utils/handleChange';
+import { handleChange } from '../../common/utils/index';
 
 export const sounds = Object.freeze({
   click: 'Click',
