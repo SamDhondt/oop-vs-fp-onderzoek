@@ -1,0 +1,16 @@
+<div *ngIf="practiceSessions && practiceSessions.length > 0; else noSessions">
+  <ul>
+    <li *ngFor="let practiceSession of practiceSessions">
+      {{ practiceSession.tempo }} - {{ practiceSession.duration }}
+      <button (click)="removePracticeSession(practiceSession.id)">
+        Remove
+      </button>
+    </li>
+  </ul>
+  <button (click)="removeAllPracticeSessions()">Reset</button>
+</div>
+<ng-template #noSessions>
+  <p>
+    No practice sessions for this rudiment.
+  </p>
+</ng-template>
