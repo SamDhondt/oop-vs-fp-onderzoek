@@ -22,6 +22,8 @@ const practiceSessions = [
 const removePracticeSession = id =>
   console.log(`removing session with id ${id}`);
 
+const removeAllPracticeSessions = () => console.log('removing all sessions');
+
 const App = () => (
   <div>
     <Metronome defaultSound={sounds.click} defaultTempo={60} />
@@ -34,6 +36,7 @@ const App = () => (
       items={practiceSessions}
       ItemComponent={PracticeSessionItem}
       onRemove={removePracticeSession}
+      onReset={removeAllPracticeSessions}
     />
   </div>
 );

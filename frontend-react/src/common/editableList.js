@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const EditableList = ({ items, ItemComponent, onRemove }) => {
+const EditableList = ({ items, ItemComponent, onRemove, onReset }) => {
   return (
     <div>
       <ul>
@@ -12,6 +12,7 @@ const EditableList = ({ items, ItemComponent, onRemove }) => {
           </li>
         ))}
       </ul>
+      <button onClick={onReset}>Reset</button>
     </div>
   );
 };
@@ -23,7 +24,8 @@ EditableList.propTypes = {
     })
   ).isRequired,
   ItemComponent: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired
+  onRemove: PropTypes.func.isRequired,
+  onReset: PropTypes.func.isRequired
 };
 
 export default EditableList;
