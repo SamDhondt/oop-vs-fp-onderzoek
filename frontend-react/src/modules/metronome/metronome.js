@@ -24,7 +24,10 @@ const Metronome = ({ defaultTempo, defaultSound }) => {
 
   return (
     <div>
+      <label for="tempo">{tempo}</label>
       <input
+        id="tempo"
+        name="tempo"
         type="range"
         min="20"
         max="240"
