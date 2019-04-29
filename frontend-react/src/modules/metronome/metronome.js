@@ -24,7 +24,7 @@ const Metronome = ({ defaultTempo, defaultSound }) => {
 
   return (
     <div>
-      <label for="tempo">{tempo}</label>
+      <label>{tempo}</label>
       <input
         id="tempo"
         name="tempo"

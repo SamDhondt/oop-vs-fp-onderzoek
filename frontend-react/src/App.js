@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Metronome, { sounds } from './modules/metronome/metronome';
 import SearchableList from './common/searchableList';
 import EditableList from './common/editableList';
-import { compareTo } from './common/utils/index';
+import { compareTo, removeFrom } from './common/utils/index';
 import PracticeSessionItem from './modules/practice-sessions/practiceSessionItem';
 import RudimentListItem from './modules/rudiments/rudimentListItem';
 
@@ -19,26 +19,34 @@ const practiceSessions = [
   { id: 3, tempo: 75, duration: '10min 30s' }
 ];
 
-const removePracticeSession = id =>
-  console.log(`removing session with id ${id}`);
+const removeAllItems = setList => () => setList([]);
 
-const removeAllPracticeSessions = () => console.log('removing all sessions');
+const NO_PRACTICE_SESSIONS = 'No practice sessions for this rudiment';
+const FILTER_RUDIMENTS = 'Filter rudiments...';
 
-const App = () => (
-  <div>
-    <Metronome defaultSound={sounds.click} defaultTempo={60} />
-    <SearchableList
-      items={rudiments}
-      renderItem={RudimentListItem}
-      filterPredicate={compareTo}
-    />
-    <EditableList
-      items={practiceSessions}
-      ItemComponent={PracticeSessionItem}
-      onRemove={removePracticeSession}
-      onReset={removeAllPracticeSessions}
-    />
-  </div>
-);
+const App = () => {
+  const [sessions, setSessions] = useState(practiceSessions);
+  const removeFromSessions = removeFrom(sessions)(setSessions);
+  const removeAllFromSessions = removeAllItems(setSessions);
+
+  return (
+    <main>
+      <Metronome defaultSound={sounds.click} defaultTempo={60} />
+      <SearchableList
+        items={rudiments}
+        renderItem={RudimentListItem}
+        filterPredicate={compareTo}
+        filterPlaceholder={FILTER_RUDIMENTS}
+      />
+      <EditableList
+        items={sessions}
+        ItemComponent={PracticeSessionItem}
+        onRemove={removeFromSessions}
+        onReset={removeAllFromSessions}
+        placeholder={NO_PRACTICE_SESSIONS}
+      />
+    </main>
+  );
+};
 
 export default App;

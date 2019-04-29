@@ -12,3 +12,6 @@ export const compareTo = filter => input => input.indexOf(filter) >= 0;
 export const handleChange = setValue => ({ target: { value: newValue } }) => {
   setValue(newValue);
 };
+
+export const removeFrom = list => setList => itemId =>
+  setList(list.filter(({ id }) => itemId !== id));
