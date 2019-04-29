@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { handleChange } from '../../common/utils/index';
+import { useInputValue } from '../../common/utils/index';
 
 export const sounds = Object.freeze({
   click: 'Click',
@@ -9,11 +9,7 @@ export const sounds = Object.freeze({
   clap: 'Clap'
 });
 
-const Metronome = ({ defaultTempo, defaultSound }) => {
-  const [tempo, setTempo] = useState(defaultTempo);
-  const [playing, setPlaying] = useState(false);
-  const [sound, setSound] = useState(defaultSound);
-
+const useMetronomeTick = (playing, tempo) => {
   useEffect(() => {
     const tick = playing
       ? setInterval(() => console.log('tick'), (60 / tempo) * 1000)
@@ -21,25 +17,24 @@ const Metronome = ({ defaultTempo, defaultSound }) => {
 
     return () => clearInterval(tick);
   });
+};
+
+const Metronome = ({ defaultTempo, defaultSound }) => {
+  const tempo = useInputValue(defaultTempo);
+  const [playing, setPlaying] = useState(false);
+  const sound = useInputValue(defaultSound);
+  useMetronomeTick(playing, tempo.value);
 
   return (
     <div>
-      <label>{tempo}</label>
-      <input
-        id="tempo"
-        name="tempo"
-        type="range"
-        min="20"
-        max="240"
-        value={tempo}
-        onChange={handleChange(setTempo)}
-      />
+      <label>{tempo.value}</label>
+      <input type="range" min="20" max="240" {...tempo} />
       <input
         type="submit"
         value={playing ? 'Stop' : 'Play'}
         onClick={() => setPlaying(!playing)}
       />
-      <select value={sound} onChange={handleChange(setSound)}>
+      <select {...sound}>
         {Object.keys(sounds).map(key => (
           <option key={key} value={key}>
             {sounds[key]}

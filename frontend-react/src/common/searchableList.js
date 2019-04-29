@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { handleChange } from './utils/index';
+import { useInputValue } from './utils';
 
 const SearchableList = ({
   items,
@@ -8,17 +8,12 @@ const SearchableList = ({
   renderItem,
   filterPlaceholder
 }) => {
-  const [filter, setFilter] = useState('');
-  const compareToFilter = compareTo(filter);
+  const filter = useInputValue('');
+  const compareToFilter = compareTo(filter.value);
 
   return (
     <div>
-      <input
-        type="text"
-        onChange={handleChange(setFilter)}
-        value={filter}
-        placeholder={filterPlaceholder}
-      />
+      <input {...filter} type="text" placeholder={filterPlaceholder} />
       <ul>
         {items.filter(({ name }) => compareToFilter(name)).map(renderItem)}
       </ul>
